@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,54 +10,74 @@
     <style>
         /* ── Today header ── */
         .today-header {
-            background: var(--surface);
-            border: 1px solid var(--border);
+            background: var(--yellow);
+            border: var(--border-width) solid var(--black);
             border-radius: var(--r-xl);
             padding: var(--gap-lg) var(--gap-xl);
             margin-bottom: var(--gap-lg);
+            box-shadow: var(--shadow-lg);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .today-header::after {
+            content: 'ORACLE';
+            position: absolute;
+            right: -10px; top: -10px;
+            font-family: var(--font-display);
+            font-size: 80px;
+            font-weight: 900;
+            color: rgba(10,10,10,0.06);
+            pointer-events: none;
+            line-height: 1;
         }
 
         .today-date {
             font-family: var(--font-mono);
             font-size: 11px;
+            font-weight: 700;
             letter-spacing: 0.1em;
-            color: var(--muted);
-            text-transform: uppercase;
+            color: var(--black);
+            opacity: 0.6;
             margin-bottom: 4px;
+            text-transform: uppercase;
         }
 
         .today-greeting {
             font-family: var(--font-display);
-            font-size: clamp(22px, 5vw, 32px);
-            font-weight: 800;
+            font-size: clamp(18px, 4vw, 26px);
+            font-weight: 900;
             margin-bottom: var(--gap-md);
+            color: var(--black);
         }
 
-        /* ── CL bar section ── */
         .cl-section { margin-top: var(--gap-md); }
 
         .cl-header {
             display: flex;
             justify-content: space-between;
             align-items: baseline;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
         }
 
         .cl-label {
-            font-size: 12px;
+            font-family: var(--font-display);
+            font-size: 10px;
             font-weight: 700;
-            letter-spacing: 0.06em;
+            letter-spacing: 0.1em;
             text-transform: uppercase;
-            color: var(--muted);
+            color: var(--black);
+            opacity: 0.7;
         }
 
         .cl-value {
             font-family: var(--font-display);
-            font-size: 15px;
-            font-weight: 700;
+            font-size: 13px;
+            font-weight: 900;
+            color: var(--black);
         }
 
-        /* ── Stats row ── */
+        /* Stats row */
         .stats-row {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -64,35 +85,31 @@
             margin-bottom: var(--gap-lg);
         }
 
-        @media (max-width: 480px) {
-            .stats-row { grid-template-columns: repeat(3, 1fr); }
-            .stat-value { font-size: 22px; }
-        }
-
-        /* ── Drift warning banner ── */
+        /* Drift banner */
         .drift-banner {
             border-radius: var(--r-lg);
             padding: var(--gap-md);
-            background: var(--danger-dim);
-            border: 1px solid rgba(247,94,94,0.2);
+            background: var(--pink-light);
+            border: var(--border-width) solid var(--pink);
+            box-shadow: var(--shadow-pink);
             margin-bottom: var(--gap-lg);
         }
 
         .drift-title {
-            font-size: 13px;
-            font-weight: 700;
-            color: var(--danger);
+            font-family: var(--font-display);
+            font-size: 11px;
+            font-weight: 900;
+            color: var(--pink);
             margin-bottom: var(--gap-sm);
-            display: flex;
-            align-items: center;
-            gap: 6px;
+            letter-spacing: 0.04em;
         }
 
         .drift-item {
             font-size: 12px;
-            color: var(--text-2);
-            padding: 4px 0;
-            border-bottom: 1px solid rgba(247,94,94,0.1);
+            font-weight: 600;
+            color: var(--black);
+            padding: 5px 0;
+            border-bottom: 1.5px solid rgba(255,45,126,0.15);
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -100,69 +117,72 @@
 
         .drift-item:last-child { border-bottom: none; }
 
-        /* ── Today's task items ── */
+        /* Schedule items */
         .schedule-item {
-            background: var(--surface);
-            border: 1px solid var(--border);
+            background: var(--white);
+            border: var(--border-width) solid var(--black);
             border-radius: var(--r-lg);
             padding: var(--gap-md);
             display: flex;
             align-items: center;
             gap: var(--gap-md);
-            transition: border-color 0.2s, opacity 0.3s;
+            box-shadow: var(--shadow);
+            transition: transform 0.15s, box-shadow 0.15s;
             position: relative;
             overflow: hidden;
+        }
+
+        .schedule-item:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: var(--shadow-lg);
         }
 
         .schedule-item::before {
             content: '';
             position: absolute;
             left: 0; top: 0; bottom: 0;
-            width: 3px;
+            width: 5px;
         }
 
-        .schedule-item[data-strategy="BREACH"]::before  { background: var(--danger); }
+        .schedule-item[data-strategy="BREACH"]::before  { background: var(--pink); }
         .schedule-item[data-strategy="SPRINT"]::before  { background: var(--warning); }
         .schedule-item[data-strategy="MARATHON"]::before { background: var(--success); }
 
-        .schedule-item.done {
-            opacity: 0.45;
-        }
-
-        .schedule-item.done .item-title {
-            text-decoration: line-through;
-        }
+        .schedule-item.done { opacity: 0.5; }
+        .schedule-item.done .item-title { text-decoration: line-through; }
 
         .item-checkbox {
-            width: 22px;
-            height: 22px;
-            border-radius: 50%;
-            border: 2px solid var(--border-light);
-            background: transparent;
+            width: 24px; height: 24px;
+            border-radius: var(--r-sm);
+            border: var(--border-width) solid var(--black);
+            background: var(--white);
             cursor: pointer;
             flex-shrink: 0;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 12px;
+            font-size: 13px;
+            font-weight: 900;
             color: transparent;
-            transition: all 0.2s;
+            transition: all 0.15s;
+            box-shadow: 2px 2px 0 var(--black);
         }
 
-        .item-checkbox:hover { border-color: var(--accent); }
+        .item-checkbox:hover { background: var(--pink-light); }
 
         .schedule-item.done .item-checkbox {
-            background: var(--success);
-            border-color: var(--success);
+            background: var(--pink);
             color: white;
+            box-shadow: 2px 2px 0 var(--black);
         }
 
         .item-body { flex: 1; min-width: 0; }
 
         .item-title {
             font-family: var(--font-display);
-            font-size: 15px;
-            font-weight: 600;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--black);
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -170,7 +190,7 @@
 
         .item-meta {
             display: flex;
-            gap: var(--gap-sm);
+            gap: 6px;
             margin-top: 4px;
             flex-wrap: wrap;
             align-items: center;
@@ -178,31 +198,32 @@
 
         .item-units {
             font-family: var(--font-mono);
-            font-size: 13px;
-            color: var(--accent);
-            font-weight: 600;
+            font-size: 12px;
+            color: var(--pink);
+            font-weight: 700;
             flex-shrink: 0;
+            background: var(--pink-light);
+            padding: 2px 8px;
+            border: 1.5px solid var(--black);
+            border-radius: var(--r-sm);
         }
 
-        /* ── Off day / free day card ── */
         .free-day-card {
             text-align: center;
             padding: var(--gap-2xl);
-            color: var(--muted);
         }
 
-        .free-day-card .free-icon { font-size: 36px; margin-bottom: var(--gap-md); }
+        .free-day-card .free-icon  { font-size: 40px; margin-bottom: var(--gap-md); display: block; }
         .free-day-card .free-title {
             font-family: var(--font-display);
             font-size: 20px;
-            color: var(--text-2);
+            font-weight: 900;
             margin-bottom: var(--gap-sm);
         }
     </style>
 </head>
 <body>
 
-<!-- ── Top Nav ── -->
 <nav class="nav">
     <a href="dashboard.html" class="nav-logo">ORACLE</a>
     <ul class="nav-links">
@@ -214,7 +235,6 @@
     </ul>
 </nav>
 
-<!-- ── Bottom Nav (mobile) ── -->
 <nav class="bottom-nav">
     <a href="dashboard.html" class="active"><span class="icon">⊞</span>Today</a>
     <a href="tasks.html"><span class="icon">✦</span>Tasks</a>
@@ -222,9 +242,7 @@
     <a href="settings.html"><span class="icon">◈</span>Settings</a>
 </nav>
 
-<!-- ── Page ── -->
 <main class="page" id="main-page">
-    <!-- Loading state -->
     <div class="loading-screen" id="loading-screen">
         <div class="spinner"></div> Building your plan…
     </div>
