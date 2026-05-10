@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,73 +7,79 @@
     <link rel="stylesheet" href="css/global.css" />
     <link rel="stylesheet" href="css/components.css" />
     <style>
-        /* ── Today header ── */
+        /* ── Hero header card ── */
         .today-header {
-            background: var(--yellow);
-            border: var(--border-width) solid var(--black);
-            border-radius: var(--r-xl);
-            padding: var(--gap-lg) var(--gap-xl);
+            background: linear-gradient(135deg, var(--pink) 0%, var(--purple) 100%);
+            border-radius: var(--r-2xl);
+            padding: var(--gap-xl);
             margin-bottom: var(--gap-lg);
-            box-shadow: var(--shadow-lg);
+            box-shadow: var(--shadow-pink);
             position: relative;
             overflow: hidden;
+            color: white;
+        }
+
+        /* Soft orb decorations */
+        .today-header::before {
+            content: '';
+            position: absolute;
+            width: 200px; height: 200px;
+            background: rgba(255,255,255,0.08);
+            border-radius: 50%;
+            top: -60px; right: -40px;
+            pointer-events: none;
         }
 
         .today-header::after {
-            content: 'ORACLE';
+            content: '';
             position: absolute;
-            right: -10px; top: -10px;
-            font-family: var(--font-display);
-            font-size: 80px;
-            font-weight: 900;
-            color: rgba(10,10,10,0.06);
+            width: 120px; height: 120px;
+            background: rgba(255,255,255,0.06);
+            border-radius: 50%;
+            bottom: -30px; left: 30px;
             pointer-events: none;
-            line-height: 1;
         }
 
         .today-date {
-            font-family: var(--font-mono);
-            font-size: 11px;
-            font-weight: 700;
-            letter-spacing: 0.1em;
-            color: var(--black);
-            opacity: 0.6;
-            margin-bottom: 4px;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 0.06em;
+            opacity: 0.75;
+            margin-bottom: 6px;
             text-transform: uppercase;
+            font-family: var(--font-mono);
+            position: relative; z-index: 1;
         }
 
         .today-greeting {
-            font-family: var(--font-display);
-            font-size: clamp(18px, 4vw, 26px);
-            font-weight: 900;
-            margin-bottom: var(--gap-md);
-            color: var(--black);
+            font-size: clamp(20px, 4vw, 28px);
+            font-weight: 800;
+            margin-bottom: var(--gap-lg);
+            letter-spacing: -0.3px;
+            position: relative; z-index: 1;
         }
 
-        .cl-section { margin-top: var(--gap-md); }
+        .cl-section { position: relative; z-index: 1; }
 
         .cl-header {
             display: flex;
             justify-content: space-between;
             align-items: baseline;
-            margin-bottom: 6px;
+            margin-bottom: 8px;
         }
 
         .cl-label {
-            font-family: var(--font-display);
-            font-size: 10px;
+            font-size: 11px;
             font-weight: 700;
-            letter-spacing: 0.1em;
+            letter-spacing: 0.06em;
             text-transform: uppercase;
-            color: var(--black);
-            opacity: 0.7;
+            opacity: 0.75;
         }
 
         .cl-value {
-            font-family: var(--font-display);
-            font-size: 13px;
-            font-weight: 900;
-            color: var(--black);
+            font-size: 14px;
+            font-weight: 800;
+            letter-spacing: -0.1px;
         }
 
         /* Stats row */
@@ -87,29 +92,28 @@
 
         /* Drift banner */
         .drift-banner {
-            border-radius: var(--r-lg);
-            padding: var(--gap-md);
-            background: var(--pink-light);
-            border: var(--border-width) solid var(--pink);
-            box-shadow: var(--shadow-pink);
+            border-radius: var(--r-xl);
+            padding: var(--gap-md) var(--gap-lg);
+            background: rgba(255,45,120,0.07);
+            border: 1px solid rgba(255,45,120,0.18);
             margin-bottom: var(--gap-lg);
+            backdrop-filter: blur(8px);
         }
 
         .drift-title {
-            font-family: var(--font-display);
-            font-size: 11px;
-            font-weight: 900;
+            font-size: 12px;
+            font-weight: 800;
             color: var(--pink);
             margin-bottom: var(--gap-sm);
-            letter-spacing: 0.04em;
+            letter-spacing: 0.02em;
         }
 
         .drift-item {
-            font-size: 12px;
-            font-weight: 600;
-            color: var(--black);
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-2);
             padding: 5px 0;
-            border-bottom: 1.5px solid rgba(255,45,126,0.15);
+            border-bottom: 1px solid rgba(255,45,120,0.08);
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -119,73 +123,74 @@
 
         /* Schedule items */
         .schedule-item {
-            background: var(--white);
-            border: var(--border-width) solid var(--black);
-            border-radius: var(--r-lg);
-            padding: var(--gap-md);
+            background: var(--surface);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--border);
+            border-radius: var(--r-xl);
+            padding: var(--gap-md) var(--gap-lg);
             display: flex;
             align-items: center;
             gap: var(--gap-md);
-            box-shadow: var(--shadow);
-            transition: transform 0.15s, box-shadow 0.15s;
+            box-shadow: var(--shadow-sm);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
             position: relative;
             overflow: hidden;
         }
 
-        .schedule-item:hover {
-            transform: translate(-2px, -2px);
-            box-shadow: var(--shadow-lg);
-        }
+        .schedule-item:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
 
         .schedule-item::before {
             content: '';
             position: absolute;
             left: 0; top: 0; bottom: 0;
-            width: 5px;
+            width: 4px;
+            border-radius: var(--r-xl) 0 0 var(--r-xl);
         }
 
         .schedule-item[data-strategy="BREACH"]::before  { background: var(--pink); }
         .schedule-item[data-strategy="SPRINT"]::before  { background: var(--warning); }
         .schedule-item[data-strategy="MARATHON"]::before { background: var(--success); }
 
-        .schedule-item.done { opacity: 0.5; }
+        .schedule-item.done { opacity: 0.45; }
         .schedule-item.done .item-title { text-decoration: line-through; }
 
         .item-checkbox {
-            width: 24px; height: 24px;
-            border-radius: var(--r-sm);
-            border: var(--border-width) solid var(--black);
-            background: var(--white);
+            width: 26px; height: 26px;
+            border-radius: 50%;
+            border: 2px solid rgba(0,0,0,0.12);
+            background: white;
             cursor: pointer;
             flex-shrink: 0;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 13px;
-            font-weight: 900;
+            font-weight: 800;
             color: transparent;
-            transition: all 0.15s;
-            box-shadow: 2px 2px 0 var(--black);
+            transition: all 0.2s ease;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
         }
 
-        .item-checkbox:hover { background: var(--pink-light); }
+        .item-checkbox:hover { border-color: var(--pink); transform: scale(1.08); }
 
         .schedule-item.done .item-checkbox {
-            background: var(--pink);
+            background: linear-gradient(135deg, var(--pink), var(--purple));
+            border-color: transparent;
             color: white;
-            box-shadow: 2px 2px 0 var(--black);
+            box-shadow: 0 2px 8px rgba(255,45,120,0.3);
         }
 
         .item-body { flex: 1; min-width: 0; }
 
         .item-title {
-            font-family: var(--font-display);
-            font-size: 13px;
+            font-size: 14px;
             font-weight: 700;
-            color: var(--black);
+            color: var(--text);
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
+            letter-spacing: -0.1px;
         }
 
         .item-meta {
@@ -199,13 +204,12 @@
         .item-units {
             font-family: var(--font-mono);
             font-size: 12px;
-            color: var(--pink);
-            font-weight: 700;
+            font-weight: 600;
+            color: var(--purple);
             flex-shrink: 0;
-            background: var(--pink-light);
-            padding: 2px 8px;
-            border: 1.5px solid var(--black);
-            border-radius: var(--r-sm);
+            background: var(--purple-dim);
+            padding: 3px 9px;
+            border-radius: var(--r-full);
         }
 
         .free-day-card {
@@ -213,12 +217,12 @@
             padding: var(--gap-2xl);
         }
 
-        .free-day-card .free-icon  { font-size: 40px; margin-bottom: var(--gap-md); display: block; }
+        .free-day-card .free-icon  { font-size: 44px; margin-bottom: var(--gap-md); display: block; }
         .free-day-card .free-title {
-            font-family: var(--font-display);
             font-size: 20px;
-            font-weight: 900;
+            font-weight: 800;
             margin-bottom: var(--gap-sm);
+            letter-spacing: -0.2px;
         }
     </style>
 </head>
@@ -243,7 +247,7 @@
 </nav>
 
 <main class="page" id="main-page">
-    <div class="loading-screen" id="loading-screen">
+    <div class="loading-screen">
         <div class="spinner"></div> Building your plan…
     </div>
 </main>
