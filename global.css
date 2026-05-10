@@ -1,0 +1,239 @@
+/* ============================================================
+   ORACLE — Global CSS
+   Design tokens, reset, typography, layout, utilities.
+   Every page links this file first.
+   ============================================================ */
+
+/* ── Google Fonts ── */
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+/* ── Design Tokens ── */
+:root {
+    /* Colors */
+    --bg:           #080b14;
+    --bg-2:         #0c1120;
+    --surface:      #0f1624;
+    --surface-2:    #141e30;
+    --border:       #1e2d45;
+    --border-light: #263852;
+
+    --accent:       #4f8ef7;
+    --accent-dim:   #1a3260;
+    --accent-glow:  rgba(79, 142, 247, 0.18);
+
+    --text:         #e8edf5;
+    --text-2:       #9aafc9;
+    --muted:        #4a5a72;
+
+    --danger:       #f75e5e;
+    --danger-dim:   rgba(247, 94, 94, 0.12);
+    --success:      #4fc98e;
+    --success-dim:  rgba(79, 201, 142, 0.12);
+    --warning:      #f7b84f;
+    --warning-dim:  rgba(247, 184, 79, 0.12);
+
+    /* Category colors */
+    --cat-study:    #818cf8;
+    --cat-work:     #4f8ef7;
+    --cat-personal: #4fc98e;
+    --cat-general:  #9aafc9;
+
+    /* Priority colors */
+    --pri-1:        #4a5a72;   /* Low */
+    --pri-2:        #4fc98e;   /* Normal */
+    --pri-3:        #f7b84f;   /* Medium */
+    --pri-4:        #f7874f;   /* High */
+    --pri-5:        #f75e5e;   /* Critical */
+
+    /* Spacing */
+    --gap-xs:  4px;
+    --gap-sm:  8px;
+    --gap-md:  16px;
+    --gap-lg:  24px;
+    --gap-xl:  32px;
+    --gap-2xl: 48px;
+
+    /* Radius */
+    --r-sm:  8px;
+    --r-md:  12px;
+    --r-lg:  16px;
+    --r-xl:  20px;
+    --r-full: 999px;
+
+    /* Typography */
+    --font-display: 'Syne', sans-serif;
+    --font-body:    'Manrope', sans-serif;
+    --font-mono:    'JetBrains Mono', monospace;
+
+    /* Shadows */
+    --shadow-sm: 0 2px 8px rgba(0,0,0,0.3);
+    --shadow-md: 0 8px 24px rgba(0,0,0,0.4);
+    --shadow-lg: 0 16px 48px rgba(0,0,0,0.5);
+
+    /* Nav */
+    --nav-height: 64px;
+    --nav-bottom: 72px; /* mobile bottom nav height */
+}
+
+/* ── Reset ── */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+}
+
+body {
+    font-family: var(--font-body);
+    background: var(--bg);
+    color: var(--text);
+    font-size: 15px;
+    line-height: 1.6;
+    min-height: 100dvh;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* Subtle grid texture on all pages */
+body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+        linear-gradient(var(--border) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border) 1px, transparent 1px);
+    background-size: 48px 48px;
+    opacity: 0.35;
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* ── Typography ── */
+h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    line-height: 1.2;
+    color: var(--text);
+}
+
+h1 { font-size: clamp(24px, 5vw, 36px); }
+h2 { font-size: clamp(20px, 4vw, 28px); }
+h3 { font-size: clamp(16px, 3vw, 20px); }
+h4 { font-size: 15px; }
+
+p  { color: var(--text-2); }
+a  { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+code, .mono {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    background: var(--surface-2);
+    padding: 2px 6px;
+    border-radius: var(--r-sm);
+    color: var(--accent);
+}
+
+/* ── Layout ── */
+
+/* Main page wrapper — accounts for top nav + bottom mobile nav */
+.page {
+    position: relative;
+    z-index: 1;
+    padding-top: calc(var(--nav-height) + var(--gap-lg));
+    padding-bottom: calc(var(--nav-bottom) + var(--gap-lg));
+    padding-left: var(--gap-lg);
+    padding-right: var(--gap-lg);
+    max-width: 900px;
+    margin: 0 auto;
+    min-height: 100dvh;
+}
+
+/* On wider screens, no bottom nav needed */
+@media (min-width: 768px) {
+    .page {
+        padding-bottom: var(--gap-2xl);
+        padding-left: var(--gap-xl);
+        padding-right: var(--gap-xl);
+    }
+}
+
+/* Section spacing */
+.section { margin-bottom: var(--gap-xl); }
+.section-title {
+    font-family: var(--font-display);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: var(--gap-md);
+}
+
+/* ── Grid helpers ── */
+.grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--gap-md); }
+.grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--gap-md); }
+
+@media (max-width: 600px) {
+    .grid-2, .grid-3 { grid-template-columns: 1fr; }
+}
+
+/* ── Flex helpers ── */
+.flex        { display: flex; }
+.flex-center { display: flex; align-items: center; justify-content: center; }
+.flex-between{ display: flex; align-items: center; justify-content: space-between; }
+.flex-col    { display: flex; flex-direction: column; }
+.gap-sm      { gap: var(--gap-sm); }
+.gap-md      { gap: var(--gap-md); }
+
+/* ── Utility classes ── */
+.text-muted   { color: var(--muted); }
+.text-accent  { color: var(--accent); }
+.text-success { color: var(--success); }
+.text-danger  { color: var(--danger); }
+.text-warning { color: var(--warning); }
+.text-sm      { font-size: 13px; }
+.text-xs      { font-size: 11px; }
+.font-mono    { font-family: var(--font-mono); }
+.font-display { font-family: var(--font-display); }
+.fw-600       { font-weight: 600; }
+.fw-700       { font-weight: 700; }
+.mt-sm        { margin-top: var(--gap-sm); }
+.mt-md        { margin-top: var(--gap-md); }
+.mt-lg        { margin-top: var(--gap-lg); }
+.w-full       { width: 100%; }
+.hidden       { display: none !important; }
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar       { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border-light); border-radius: var(--r-full); }
+
+/* ── Selection ── */
+::selection { background: var(--accent-dim); color: var(--text); }
+
+/* ── Focus ring ── */
+:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+    border-radius: var(--r-sm);
+}
+
+/* ── Page fade-in ── */
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.page > * {
+    animation: fadeUp 0.3s ease both;
+}
+
+.page > *:nth-child(1) { animation-delay: 0.04s; }
+.page > *:nth-child(2) { animation-delay: 0.08s; }
+.page > *:nth-child(3) { animation-delay: 0.12s; }
+.page > *:nth-child(4) { animation-delay: 0.16s; }
+.page > *:nth-child(5) { animation-delay: 0.20s; }
