@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ORACLE — Planner</title>
+    <link rel="stylesheet" href="css/global.css" />
+    <link rel="stylesheet" href="css/components.css" />
+    <style>
+        /* ── Week nav ── */
+        .week-nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: var(--gap-lg);
+            gap: var(--gap-md);
+        }
+
+        .week-label {
+            font-family: var(--font-display);
+            font-size: 17px;
+            font-weight: 700;
+            text-align: center;
+            flex: 1;
+        }
+
+        /* ── Day grid ── */
+        .day-grid {
+            display: flex;
+            flex-direction: column;
+            gap: var(--gap-sm);
+        }
+
+        /* ── Day row ── */
+        .day-row {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--r-lg);
+            overflow: hidden;
+            transition: border-color 0.2s;
+        }
+
+        .day-row.is-today { border-color: var(--accent); }
+        .day-row.is-off   { opacity: 0.45; }
+
+        /* Day header — always visible, tap to expand */
+        .day-header {
+            display: flex;
+            align-items: center;
+            gap: var(--gap-md);
+            padding: 12px var(--gap-md);
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .day-header:hover { background: var(--surface-2); }
+
+        .day-label {
+            min-width: 80px;
+        }
+
+        .day-name {
+            font-family: var(--font-display);
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .day-date-num {
+            font-size: 11px;
+            color: var(--muted);
+            font-family: var(--font-mono);
+        }
+
+        .day-row.is-today .day-name { color: var(--accent); }
+
+        /* CL mini bar */
+        .day-cl-wrap {
+            flex: 1;
+        }
+
+        .day-cl-bar {
+            height: 5px;
+            background: var(--border);
+            border-radius: var(--r-full);
+            overflow: hidden;
+        }
+
+        .day-cl-fill {
+            height: 100%;
+            border-radius: var(--r-full);
+            transition: width 0.4s ease;
+        }
+
+        .day-cl-text {
+            font-size: 10px;
+            color: var(--muted);
+            margin-top: 3px;
+            font-family: var(--font-mono);
+        }
+
+        /* Chevron */
+        .day-chevron {
+            font-size: 12px;
+            color: var(--muted);
+            transition: transform 0.2s;
+            flex-shrink: 0;
+        }
+
+        .day-row.expanded .day-chevron { transform: rotate(180deg); }
+
+        /* Day body — task list, hidden by default */
+        .day-body {
+            display: none;
+            padding: 0 var(--gap-md) var(--gap-md);
+            border-top: 1px solid var(--border);
+        }
+
+        .day-row.expanded .day-body { display: block; }
+
+        /* Planner task pill */
+        .planner-item {
+            display: flex;
+            align-items: center;
+            gap: var(--gap-sm);
+            padding: 8px 0;
+            border-bottom: 1px solid var(--border);
+            font-size: 13px;
+        }
+
+        .planner-item:last-child { border-bottom: none; }
+
+        .planner-item-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .planner-item-title {
+            flex: 1;
+            font-weight: 600;
+            color: var(--text);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .planner-item-units {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            color: var(--muted);
+            flex-shrink: 0;
+        }
+
+        /* Off / empty day body */
+        .day-off-msg, .day-empty-msg {
+            font-size: 12px;
+            color: var(--muted);
+            padding: var(--gap-sm) 0;
+        }
+
+        /* ── Legend ── */
+        .legend {
+            display: flex;
+            gap: var(--gap-md);
+            flex-wrap: wrap;
+            margin-bottom: var(--gap-lg);
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 12px;
+            color: var(--text-2);
+        }
+
+        .legend-dot {
+            width: 8px; height: 8px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+    </style>
+</head>
+<body>
+
+<!-- ── Top Nav ── -->
+<nav class="nav">
+    <a href="dashboard.html" class="nav-logo">ORACLE</a>
+    <ul class="nav-links">
+        <li><a href="dashboard.html">Dashboard</a></li>
+        <li><a href="tasks.html">Tasks</a></li>
+        <li><a href="planner.html" class="active">Planner</a></li>
+        <li><a href="settings.html">Settings</a></li>
+        <li><a href="#" id="nav-logout">Log out</a></li>
+    </ul>
+</nav>
+
+<!-- ── Bottom Nav (mobile) ── -->
+<nav class="bottom-nav">
+    <a href="dashboard.html"><span class="icon">⊞</span>Today</a>
+    <a href="tasks.html"><span class="icon">✦</span>Tasks</a>
+    <a href="planner.html" class="active"><span class="icon">◫</span>Planner</a>
+    <a href="settings.html"><span class="icon">◈</span>Settings</a>
+</nav>
+
+<!-- ── Page ── -->
+<main class="page">
+
+    <div style="margin-bottom:var(--gap-lg);">
+        <h1>Planner</h1>
+        <p class="text-sm text-muted mt-sm">Your full engine-generated schedule. Tap any day to expand.</p>
+    </div>
+
+    <!-- Week navigation -->
+    <div class="week-nav">
+        <button class="btn btn-secondary btn-sm" id="prev-week">← Prev</button>
+        <span class="week-label" id="week-label">—</span>
+        <button class="btn btn-secondary btn-sm" id="next-week">Next →</button>
+    </div>
+
+    <!-- Legend -->
+    <div class="legend">
+        <div class="legend-item">
+            <div class="legend-dot" style="background:var(--danger)"></div> BREACH
+        </div>
+        <div class="legend-item">
+            <div class="legend-dot" style="background:var(--warning)"></div> SPRINT
+        </div>
+        <div class="legend-item">
+            <div class="legend-dot" style="background:var(--success)"></div> MARATHON
+        </div>
+    </div>
+
+    <!-- Day grid -->
+    <div class="day-grid" id="day-grid">
+        <div class="loading-screen" style="min-height:200px;">
+            <div class="spinner"></div> Building schedule…
+        </div>
+    </div>
+
+</main>
+
+<script type="module" src="js/planner.js"></script>
+</body>
+</html>

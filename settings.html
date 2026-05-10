@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ORACLE — Settings</title>
+    <link rel="stylesheet" href="css/global.css" />
+    <link rel="stylesheet" href="css/components.css" />
+    <style>
+        /* ── Settings sections ── */
+        .settings-section {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--r-xl);
+            padding: var(--gap-lg) var(--gap-xl);
+            margin-bottom: var(--gap-lg);
+        }
+
+        .settings-section-title {
+            font-family: var(--font-display);
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-bottom: var(--gap-md);
+            padding-bottom: var(--gap-sm);
+            border-bottom: 1px solid var(--border);
+        }
+
+        /* ── Day picker (off days) ── */
+        .day-picker {
+            display: flex;
+            gap: var(--gap-sm);
+            flex-wrap: wrap;
+            margin-top: var(--gap-sm);
+        }
+
+        .day-pill {
+            padding: 8px 14px;
+            border-radius: var(--r-full);
+            border: 1px solid var(--border);
+            background: var(--bg);
+            color: var(--text-2);
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            user-select: none;
+        }
+
+        .day-pill:hover { border-color: var(--accent); color: var(--text); }
+
+        .day-pill.selected {
+            background: var(--accent-dim);
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        /* ── Capacity slider ── */
+        .capacity-display {
+            font-family: var(--font-display);
+            font-size: 36px;
+            font-weight: 800;
+            color: var(--accent);
+            text-align: center;
+            margin: var(--gap-md) 0 var(--gap-sm);
+        }
+
+        .capacity-unit {
+            font-size: 16px;
+            color: var(--muted);
+            font-weight: 400;
+        }
+
+        input[type="range"] {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 6px;
+            border-radius: var(--r-full);
+            background: var(--border);
+            outline: none;
+            cursor: pointer;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--accent);
+            cursor: pointer;
+            box-shadow: 0 0 0 3px var(--accent-glow);
+        }
+
+        /* ── Profile info row ── */
+        .profile-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: var(--gap-sm) 0;
+            border-bottom: 1px solid var(--border);
+            font-size: 14px;
+        }
+
+        .profile-row:last-child { border-bottom: none; }
+        .profile-row-label { color: var(--muted); font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; }
+        .profile-row-value { color: var(--text); font-weight: 600; }
+
+        /* ── Danger zone ── */
+        .danger-zone {
+            background: var(--danger-dim);
+            border: 1px solid rgba(247,94,94,0.2);
+            border-radius: var(--r-xl);
+            padding: var(--gap-lg) var(--gap-xl);
+            margin-bottom: var(--gap-lg);
+        }
+
+        .danger-zone-title {
+            font-family: var(--font-display);
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--danger);
+            margin-bottom: var(--gap-md);
+        }
+    </style>
+</head>
+<body>
+
+<!-- ── Top Nav ── -->
+<nav class="nav">
+    <a href="dashboard.html" class="nav-logo">ORACLE</a>
+    <ul class="nav-links">
+        <li><a href="dashboard.html">Dashboard</a></li>
+        <li><a href="tasks.html">Tasks</a></li>
+        <li><a href="planner.html">Planner</a></li>
+        <li><a href="settings.html" class="active">Settings</a></li>
+        <li><a href="#" id="nav-logout">Log out</a></li>
+    </ul>
+</nav>
+
+<!-- ── Bottom Nav (mobile) ── -->
+<nav class="bottom-nav">
+    <a href="dashboard.html"><span class="icon">⊞</span>Today</a>
+    <a href="tasks.html"><span class="icon">✦</span>Tasks</a>
+    <a href="planner.html"><span class="icon">◫</span>Planner</a>
+    <a href="settings.html" class="active"><span class="icon">◈</span>Settings</a>
+</nav>
+
+<!-- ── Page ── -->
+<main class="page">
+
+    <div style="margin-bottom:var(--gap-lg);">
+        <h1>Settings</h1>
+        <p class="text-sm text-muted mt-sm">These settings control how ORACLE plans your schedule.</p>
+    </div>
+
+    <!-- Loading state -->
+    <div id="settings-loading" class="loading-screen" style="min-height:200px;">
+        <div class="spinner"></div> Loading…
+    </div>
+
+    <!-- Settings content (hidden until loaded) -->
+    <div id="settings-content" class="hidden">
+
+        <!-- Profile info -->
+        <div class="settings-section">
+            <div class="settings-section-title">Account</div>
+            <div class="profile-row">
+                <span class="profile-row-label">Name</span>
+                <span class="profile-row-value" id="s-name">—</span>
+            </div>
+            <div class="profile-row">
+                <span class="profile-row-label">Email</span>
+                <span class="profile-row-value" id="s-email">—</span>
+            </div>
+        </div>
+
+        <!-- Daily capacity -->
+        <div class="settings-section">
+            <div class="settings-section-title">Daily Capacity</div>
+            <p class="text-sm text-muted">How many hours are you available to work each day?</p>
+            <div class="capacity-display">
+                <span id="capacity-val">6</span>
+                <span class="capacity-unit"> hrs / day</span>
+            </div>
+            <input type="range" id="capacity-slider"
+                min="1" max="16" step="0.5" value="6" />
+            <div class="flex-between mt-sm">
+                <span class="text-xs text-muted">1 hr</span>
+                <span class="text-xs text-muted">16 hrs</span>
+            </div>
+        </div>
+
+        <!-- Off days -->
+        <div class="settings-section">
+            <div class="settings-section-title">Days Off</div>
+            <p class="text-sm text-muted">ORACLE won't schedule any tasks on these days.</p>
+            <div class="day-picker" id="day-picker">
+                <div class="day-pill" data-dow="1">Mon</div>
+                <div class="day-pill" data-dow="2">Tue</div>
+                <div class="day-pill" data-dow="3">Wed</div>
+                <div class="day-pill" data-dow="4">Thu</div>
+                <div class="day-pill" data-dow="5">Fri</div>
+                <div class="day-pill" data-dow="6">Sat</div>
+                <div class="day-pill" data-dow="0">Sun</div>
+            </div>
+        </div>
+
+        <!-- Default unit -->
+        <div class="settings-section">
+            <div class="settings-section-title">Default Unit</div>
+            <p class="text-sm text-muted">Pre-selected unit when you add a new task.</p>
+            <div style="margin-top:var(--gap-md);">
+                <select class="form-select" id="default-unit">
+                    <option value="hours">Hours</option>
+                    <option value="tasks">Tasks</option>
+                    <option value="pages">Pages</option>
+                    <option value="chapters">Chapters</option>
+                    <option value="items">Items</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Save button -->
+        <button class="btn btn-primary w-full btn-lg" id="save-btn" onclick="saveSettings()">
+            Save Settings
+        </button>
+
+        <!-- Danger zone -->
+        <div class="danger-zone" style="margin-top:var(--gap-lg);">
+            <div class="danger-zone-title">Danger Zone</div>
+            <div class="flex-between">
+                <div>
+                    <p class="fw-600" style="font-size:14px;">Log Out</p>
+                    <p class="text-sm text-muted">Sign out of your account.</p>
+                </div>
+                <button class="btn btn-danger btn-sm" id="logout-btn">Log Out</button>
+            </div>
+        </div>
+
+    </div><!-- /settings-content -->
+
+</main>
+
+<script type="module" src="js/settings.js"></script>
+</body>
+</html>

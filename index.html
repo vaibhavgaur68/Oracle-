@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ORACLE — Sign In</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Manrope:wght@400;500;600&display=swap" rel="stylesheet" />
+    <style>
+        /* ── Reset & Tokens ── */
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --bg:        #080b14;
+            --surface:   #0f1624;
+            --border:    #1e2d45;
+            --accent:    #4f8ef7;
+            --accent-dim:#1e3a6e;
+            --text:      #e8edf5;
+            --muted:     #5a6a82;
+            --danger:    #f75e5e;
+            --success:   #4fc98e;
+            --radius:    14px;
+        }
+
+        body {
+            font-family: 'Manrope', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100dvh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            /* Subtle grid background */
+            background-image:
+                linear-gradient(var(--border) 1px, transparent 1px),
+                linear-gradient(90deg, var(--border) 1px, transparent 1px);
+            background-size: 48px 48px;
+            background-position: center center;
+        }
+
+        /* ── Card ── */
+        .card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 40px 36px;
+            width: 100%;
+            max-width: 420px;
+            box-shadow: 0 24px 64px rgba(0,0,0,0.5);
+        }
+
+        /* ── Logo / Header ── */
+        .logo {
+            font-family: 'Syne', sans-serif;
+            font-size: 28px;
+            font-weight: 800;
+            letter-spacing: 0.12em;
+            color: var(--accent);
+            margin-bottom: 4px;
+        }
+
+        .tagline {
+            font-size: 13px;
+            color: var(--muted);
+            margin-bottom: 32px;
+            letter-spacing: 0.03em;
+        }
+
+        /* ── Tab switcher (Login / Sign Up) ── */
+        .tabs {
+            display: flex;
+            gap: 4px;
+            background: var(--bg);
+            border-radius: 10px;
+            padding: 4px;
+            margin-bottom: 28px;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 8px;
+            background: transparent;
+            color: var(--muted);
+            font-family: 'Manrope', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .tab-btn.active {
+            background: var(--accent);
+            color: #fff;
+        }
+
+        /* ── Form ── */
+        .form { display: flex; flex-direction: column; gap: 16px; }
+
+        .field { display: flex; flex-direction: column; gap: 6px; }
+
+        label {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--muted);
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+        }
+
+        input {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 12px 14px;
+            color: var(--text);
+            font-family: 'Manrope', sans-serif;
+            font-size: 15px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        input:focus { border-color: var(--accent); }
+        input::placeholder { color: var(--muted); }
+
+        /* ── Submit Button ── */
+        .btn-primary {
+            margin-top: 4px;
+            padding: 14px;
+            background: var(--accent);
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            font-family: 'Manrope', sans-serif;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: opacity 0.2s, transform 0.1s;
+        }
+
+        .btn-primary:hover  { opacity: 0.88; }
+        .btn-primary:active { transform: scale(0.98); }
+        .btn-primary:disabled { opacity: 0.45; cursor: not-allowed; }
+
+        /* ── Status message ── */
+        .status {
+            font-size: 13px;
+            padding: 10px 14px;
+            border-radius: 8px;
+            display: none;
+            margin-top: 4px;
+        }
+
+        .status.error   { background: rgba(247,94,94,0.12); color: var(--danger);  display: block; }
+        .status.success { background: rgba(79,201,142,0.12); color: var(--success); display: block; }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <div class="logo">ORACLE</div>
+    <div class="tagline">Your intelligent planning engine</div>
+
+    <!-- Tab switcher -->
+    <div class="tabs">
+        <button class="tab-btn active" id="tab-login"  onclick="showTab('login')">Log In</button>
+        <button class="tab-btn"        id="tab-signup" onclick="showTab('signup')">Sign Up</button>
+    </div>
+
+    <!-- LOGIN FORM -->
+    <div id="form-login">
+        <div class="form">
+            <div class="field">
+                <label>Email</label>
+                <input type="email" id="login-email" placeholder="you@example.com" />
+            </div>
+            <div class="field">
+                <label>Password</label>
+                <input type="password" id="login-password" placeholder="••••••••" />
+            </div>
+            <button class="btn-primary" id="login-btn" onclick="handleLogin()">Log In</button>
+            <div class="status" id="login-status"></div>
+        </div>
+    </div>
+
+    <!-- SIGNUP FORM -->
+    <div id="form-signup" style="display:none;">
+        <div class="form">
+            <div class="field">
+                <label>Full Name</label>
+                <input type="text" id="signup-name" placeholder="Your name" />
+            </div>
+            <div class="field">
+                <label>Email</label>
+                <input type="email" id="signup-email" placeholder="you@example.com" />
+            </div>
+            <div class="field">
+                <label>Password</label>
+                <input type="password" id="signup-password" placeholder="At least 6 characters" />
+            </div>
+            <button class="btn-primary" id="signup-btn" onclick="handleSignup()">Create Account</button>
+            <div class="status" id="signup-status"></div>
+        </div>
+    </div>
+</div>
+
+<script type="module">
+    import { login, signUp, getCurrentUser } from './js/auth.js';
+
+    // If already logged in, skip straight to dashboard
+    getCurrentUser().then(user => {
+        if (user) window.location.href = '/dashboard.html';
+    });
+
+    // ── Tab switching ──
+    window.showTab = function(tab) {
+        const isLogin = tab === 'login';
+        document.getElementById('form-login').style.display  = isLogin ? 'block' : 'none';
+        document.getElementById('form-signup').style.display = isLogin ? 'none'  : 'block';
+        document.getElementById('tab-login').classList.toggle('active',  isLogin);
+        document.getElementById('tab-signup').classList.toggle('active', !isLogin);
+    };
+
+    // ── Login handler ──
+    window.handleLogin = async function() {
+        const email    = document.getElementById('login-email').value.trim();
+        const password = document.getElementById('login-password').value;
+        const btn      = document.getElementById('login-btn');
+        const status   = document.getElementById('login-status');
+
+        if (!email || !password) {
+            showStatus(status, 'Please fill in both fields.', 'error');
+            return;
+        }
+
+        btn.disabled = true;
+        btn.textContent = 'Logging in…';
+        status.className = 'status';
+
+        try {
+            await login(email, password);
+            window.location.href = '/dashboard.html';
+        } catch (err) {
+            showStatus(status, err.message || 'Login failed. Check your details.', 'error');
+            btn.disabled = false;
+            btn.textContent = 'Log In';
+        }
+    };
+
+    // ── Signup handler ──
+    window.handleSignup = async function() {
+        const name     = document.getElementById('signup-name').value.trim();
+        const email    = document.getElementById('signup-email').value.trim();
+        const password = document.getElementById('signup-password').value;
+        const btn      = document.getElementById('signup-btn');
+        const status   = document.getElementById('signup-status');
+
+        if (!name || !email || !password) {
+            showStatus(status, 'Please fill in all fields.', 'error');
+            return;
+        }
+
+        if (password.length < 6) {
+            showStatus(status, 'Password must be at least 6 characters.', 'error');
+            return;
+        }
+
+        btn.disabled = true;
+        btn.textContent = 'Creating account…';
+        status.className = 'status';
+
+        try {
+            await signUp(name, email, password);
+            showStatus(status, 'Account created! Check your email to confirm, then log in.', 'success');
+            btn.textContent = 'Done!';
+        } catch (err) {
+            showStatus(status, err.message || 'Signup failed. Try again.', 'error');
+            btn.disabled = false;
+            btn.textContent = 'Create Account';
+        }
+    };
+
+    // ── Helper ──
+    function showStatus(el, message, type) {
+        el.textContent = message;
+        el.className = `status ${type}`;
+    }
+
+    // Allow pressing Enter to submit
+    document.addEventListener('keydown', e => {
+        if (e.key !== 'Enter') return;
+        const loginVisible = document.getElementById('form-login').style.display !== 'none';
+        if (loginVisible) handleLogin();
+        else handleSignup();
+    });
+</script>
+
+</body>
+</html>

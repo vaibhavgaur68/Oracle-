@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ORACLE — Dashboard</title>
+    <link rel="stylesheet" href="css/global.css" />
+    <link rel="stylesheet" href="css/components.css" />
+    <style>
+        /* ── Today header ── */
+        .today-header {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--r-xl);
+            padding: var(--gap-lg) var(--gap-xl);
+            margin-bottom: var(--gap-lg);
+        }
+
+        .today-date {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            letter-spacing: 0.1em;
+            color: var(--muted);
+            text-transform: uppercase;
+            margin-bottom: 4px;
+        }
+
+        .today-greeting {
+            font-family: var(--font-display);
+            font-size: clamp(22px, 5vw, 32px);
+            font-weight: 800;
+            margin-bottom: var(--gap-md);
+        }
+
+        /* ── CL bar section ── */
+        .cl-section { margin-top: var(--gap-md); }
+
+        .cl-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 8px;
+        }
+
+        .cl-label {
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: var(--muted);
+        }
+
+        .cl-value {
+            font-family: var(--font-display);
+            font-size: 15px;
+            font-weight: 700;
+        }
+
+        /* ── Stats row ── */
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--gap-sm);
+            margin-bottom: var(--gap-lg);
+        }
+
+        @media (max-width: 480px) {
+            .stats-row { grid-template-columns: repeat(3, 1fr); }
+            .stat-value { font-size: 22px; }
+        }
+
+        /* ── Drift warning banner ── */
+        .drift-banner {
+            border-radius: var(--r-lg);
+            padding: var(--gap-md);
+            background: var(--danger-dim);
+            border: 1px solid rgba(247,94,94,0.2);
+            margin-bottom: var(--gap-lg);
+        }
+
+        .drift-title {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--danger);
+            margin-bottom: var(--gap-sm);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .drift-item {
+            font-size: 12px;
+            color: var(--text-2);
+            padding: 4px 0;
+            border-bottom: 1px solid rgba(247,94,94,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .drift-item:last-child { border-bottom: none; }
+
+        /* ── Today's task items ── */
+        .schedule-item {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--r-lg);
+            padding: var(--gap-md);
+            display: flex;
+            align-items: center;
+            gap: var(--gap-md);
+            transition: border-color 0.2s, opacity 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .schedule-item::before {
+            content: '';
+            position: absolute;
+            left: 0; top: 0; bottom: 0;
+            width: 3px;
+        }
+
+        .schedule-item[data-strategy="BREACH"]::before  { background: var(--danger); }
+        .schedule-item[data-strategy="SPRINT"]::before  { background: var(--warning); }
+        .schedule-item[data-strategy="MARATHON"]::before { background: var(--success); }
+
+        .schedule-item.done {
+            opacity: 0.45;
+        }
+
+        .schedule-item.done .item-title {
+            text-decoration: line-through;
+        }
+
+        .item-checkbox {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            border: 2px solid var(--border-light);
+            background: transparent;
+            cursor: pointer;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            color: transparent;
+            transition: all 0.2s;
+        }
+
+        .item-checkbox:hover { border-color: var(--accent); }
+
+        .schedule-item.done .item-checkbox {
+            background: var(--success);
+            border-color: var(--success);
+            color: white;
+        }
+
+        .item-body { flex: 1; min-width: 0; }
+
+        .item-title {
+            font-family: var(--font-display);
+            font-size: 15px;
+            font-weight: 600;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .item-meta {
+            display: flex;
+            gap: var(--gap-sm);
+            margin-top: 4px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .item-units {
+            font-family: var(--font-mono);
+            font-size: 13px;
+            color: var(--accent);
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+
+        /* ── Off day / free day card ── */
+        .free-day-card {
+            text-align: center;
+            padding: var(--gap-2xl);
+            color: var(--muted);
+        }
+
+        .free-day-card .free-icon { font-size: 36px; margin-bottom: var(--gap-md); }
+        .free-day-card .free-title {
+            font-family: var(--font-display);
+            font-size: 20px;
+            color: var(--text-2);
+            margin-bottom: var(--gap-sm);
+        }
+    </style>
+</head>
+<body>
+
+<!-- ── Top Nav ── -->
+<nav class="nav">
+    <a href="dashboard.html" class="nav-logo">ORACLE</a>
+    <ul class="nav-links">
+        <li><a href="dashboard.html" class="active">Dashboard</a></li>
+        <li><a href="tasks.html">Tasks</a></li>
+        <li><a href="planner.html">Planner</a></li>
+        <li><a href="settings.html">Settings</a></li>
+        <li><a href="#" id="nav-logout">Log out</a></li>
+    </ul>
+</nav>
+
+<!-- ── Bottom Nav (mobile) ── -->
+<nav class="bottom-nav">
+    <a href="dashboard.html" class="active"><span class="icon">⊞</span>Today</a>
+    <a href="tasks.html"><span class="icon">✦</span>Tasks</a>
+    <a href="planner.html"><span class="icon">◫</span>Planner</a>
+    <a href="settings.html"><span class="icon">◈</span>Settings</a>
+</nav>
+
+<!-- ── Page ── -->
+<main class="page" id="main-page">
+    <!-- Loading state -->
+    <div class="loading-screen" id="loading-screen">
+        <div class="spinner"></div> Building your plan…
+    </div>
+</main>
+
+<script type="module" src="js/dashboard.js"></script>
+</body>
+</html>
