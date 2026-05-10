@@ -4,133 +4,130 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>ORACLE — Sign In</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;700;900&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
     <style>
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
         :root {
-            --black:  #0A0A0A;
-            --white:  #FFFFFF;
-            --pink:   #FF2D7E;
-            --purple: #6B21E8;
-            --yellow: #FFE500;
-            --bg:     #F5F0FF;
-            --bg-2:   #EDE6FF;
-            --pink-light: #FFD6E8;
-            --purple-light: #E9D5FF;
-            --border-width: 2.5px;
-            --shadow: 4px 4px 0px #0A0A0A;
-            --shadow-lg: 6px 6px 0px #0A0A0A;
-            --r-md: 6px; --r-lg: 8px; --r-xl: 10px; --r-full: 999px;
+            --pink:   #FF2D78;
+            --purple: #7C3AED;
+            --text:   #0F0A1E;
+            --text-2: #4B4567;
+            --muted:  #9B93B0;
+            --bg:     #F2EEF9;
+            --border: rgba(0,0,0,0.08);
+            --pink-dim: rgba(255,45,120,0.12);
         }
 
         body {
-            font-family: 'DM Sans', sans-serif;
+            font-family: 'Plus Jakarta Sans', sans-serif;
             background: var(--bg);
-            color: var(--black);
             min-height: 100dvh;
             display: flex;
             align-items: center;
             justify-content: center;
             padding: 24px;
-            background-image: radial-gradient(circle, #C4B5FD 1px, transparent 1px);
-            background-size: 28px 28px;
+            -webkit-font-smoothing: antialiased;
         }
 
-        /* Decorative blobs */
-        body::before, body::after {
+        /* Background gradient blobs */
+        body::before {
             content: '';
-            position: fixed;
-            border-radius: 50%;
+            position: fixed; inset: 0;
+            background:
+                radial-gradient(ellipse 70% 60% at 10% 0%, rgba(255,45,120,0.12) 0%, transparent 60%),
+                radial-gradient(ellipse 60% 70% at 90% 100%, rgba(124,58,237,0.14) 0%, transparent 60%);
             pointer-events: none;
             z-index: 0;
-        }
-        body::before {
-            width: 320px; height: 320px;
-            background: var(--pink);
-            opacity: 0.12;
-            top: -80px; left: -80px;
-        }
-        body::after {
-            width: 260px; height: 260px;
-            background: var(--purple);
-            opacity: 0.1;
-            bottom: -60px; right: -60px;
         }
 
         .wrapper {
             position: relative;
             z-index: 1;
             width: 100%;
-            max-width: 420px;
+            max-width: 400px;
+            animation: fadeUp 0.5s cubic-bezier(0.25,0.46,0.45,0.94) both;
+        }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to   { opacity: 1; transform: translateY(0); }
         }
 
         /* Brand */
-        .brand {
-            text-align: center;
-            margin-bottom: 24px;
+        .brand { text-align: center; margin-bottom: 28px; }
+
+        .brand-icon {
+            width: 64px; height: 64px;
+            border-radius: 18px;
+            background: linear-gradient(135deg, var(--pink) 0%, var(--purple) 100%);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            margin-bottom: 14px;
+            box-shadow: 0 8px 28px rgba(255,45,120,0.30);
         }
 
-        .brand-logo {
-            display: inline-block;
-            font-family: 'Unbounded', sans-serif;
-            font-size: 32px;
-            font-weight: 900;
-            letter-spacing: 0.08em;
-            color: var(--black);
-            background: var(--yellow);
-            padding: 8px 20px;
-            border: var(--border-width) solid var(--black);
-            box-shadow: var(--shadow-lg);
-        }
-
-        .brand-tag {
+        .brand-name {
             display: block;
-            margin-top: 10px;
-            font-family: 'Unbounded', sans-serif;
-            font-size: 10px;
-            font-weight: 700;
-            letter-spacing: 0.12em;
-            color: var(--purple);
-            text-transform: uppercase;
+            font-size: 26px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            background: linear-gradient(135deg, var(--pink), var(--purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .brand-sub {
+            display: block;
+            font-size: 13px;
+            color: var(--muted);
+            margin-top: 4px;
+            font-weight: 500;
         }
 
         /* Card */
         .card {
-            background: var(--white);
-            border: var(--border-width) solid var(--black);
-            border-radius: var(--r-xl);
-            padding: 36px 32px;
-            box-shadow: var(--shadow-lg);
+            background: rgba(255,255,255,0.88);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--border);
+            border-radius: 28px;
+            padding: 32px 28px;
+            box-shadow: 0 12px 40px rgba(0,0,0,0.08), 0 2px 8px rgba(0,0,0,0.04);
         }
 
         /* Tabs */
         .tabs {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
+            display: flex;
+            background: rgba(0,0,0,0.05);
+            border-radius: 999px;
+            padding: 3px;
+            margin-bottom: 26px;
             gap: 0;
-            border: var(--border-width) solid var(--black);
-            border-radius: var(--r-lg);
-            overflow: hidden;
-            margin-bottom: 28px;
         }
 
         .tab-btn {
-            padding: 11px;
+            flex: 1;
+            padding: 9px;
             border: none;
-            background: var(--bg);
-            color: var(--black);
-            font-family: 'Unbounded', sans-serif;
-            font-size: 11px;
+            border-radius: 999px;
+            background: transparent;
+            color: var(--muted);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 13px;
             font-weight: 700;
-            letter-spacing: 0.06em;
             cursor: pointer;
-            transition: all 0.15s;
+            transition: all 0.2s;
         }
 
-        .tab-btn:first-child { border-right: var(--border-width) solid var(--black); }
-        .tab-btn.active { background: var(--pink); color: var(--white); }
+        .tab-btn.active {
+            background: white;
+            color: var(--text);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+        }
 
         /* Form */
         .form { display: flex; flex-direction: column; gap: 14px; }
@@ -138,78 +135,74 @@
         .field { display: flex; flex-direction: column; gap: 5px; }
 
         label {
-            font-family: 'Unbounded', sans-serif;
-            font-size: 10px;
+            font-size: 12px;
             font-weight: 700;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            color: var(--black);
+            color: var(--text-2);
+            letter-spacing: 0.02em;
         }
 
         input {
-            background: var(--white);
-            border: var(--border-width) solid var(--black);
-            border-radius: var(--r-md);
-            padding: 12px 14px;
-            color: var(--black);
-            font-family: 'DM Sans', sans-serif;
+            background: rgba(255,255,255,0.9);
+            border: 1px solid rgba(0,0,0,0.1);
+            border-radius: 12px;
+            padding: 13px 16px;
+            color: var(--text);
+            font-family: 'Plus Jakarta Sans', sans-serif;
             font-size: 15px;
-            font-weight: 600;
+            font-weight: 500;
             outline: none;
-            box-shadow: 3px 3px 0 var(--black);
-            transition: box-shadow 0.15s, transform 0.15s;
+            transition: all 0.2s;
             width: 100%;
         }
 
         input:focus {
-            box-shadow: 3px 3px 0 var(--pink);
             border-color: var(--pink);
-            transform: translate(-1px, -1px);
+            box-shadow: 0 0 0 4px rgba(255,45,120,0.12);
         }
 
-        input::placeholder { color: #BBBBBB; font-weight: 400; }
+        input::placeholder { color: var(--muted); font-weight: 400; }
 
-        .btn-primary {
+        .btn-submit {
             margin-top: 6px;
             padding: 14px;
-            background: var(--pink);
-            color: var(--white);
-            border: var(--border-width) solid var(--black);
-            border-radius: var(--r-md);
-            font-family: 'Unbounded', sans-serif;
-            font-size: 12px;
+            background: linear-gradient(135deg, var(--pink) 0%, var(--purple) 100%);
+            color: white;
+            border: none;
+            border-radius: 999px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 15px;
             font-weight: 700;
-            letter-spacing: 0.06em;
             cursor: pointer;
-            box-shadow: var(--shadow);
-            transition: transform 0.1s, box-shadow 0.1s;
+            box-shadow: 0 4px 16px rgba(255,45,120,0.30);
+            transition: all 0.2s ease;
             width: 100%;
+            letter-spacing: -0.1px;
         }
 
-        .btn-primary:hover  { transform: translate(-2px,-2px); box-shadow: var(--shadow-lg); }
-        .btn-primary:active { transform: translate(2px,2px);   box-shadow: none; }
-        .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none; box-shadow: var(--shadow); }
+        .btn-submit:hover  { box-shadow: 0 6px 24px rgba(255,45,120,0.40); transform: translateY(-1px); }
+        .btn-submit:active { transform: scale(0.98); }
+        .btn-submit:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
 
         .status {
             font-size: 13px;
-            font-weight: 700;
+            font-weight: 600;
             padding: 10px 14px;
-            border-radius: var(--r-md);
-            border: var(--border-width) solid var(--black);
+            border-radius: 12px;
             display: none;
             margin-top: 4px;
         }
 
-        .status.error   { background: var(--pink-light);   color: var(--pink);   display: block; }
-        .status.success { background: #C4F7EA;             color: #007A5A;       display: block; }
+        .status.error   { background: rgba(255,45,120,0.1); color: var(--pink); display: block; }
+        .status.success { background: rgba(52,199,89,0.1);  color: #1A7A38;     display: block; }
     </style>
 </head>
 <body>
 
 <div class="wrapper">
     <div class="brand">
-        <span class="brand-logo">ORACLE</span>
-        <span class="brand-tag">Your intelligent planning engine</span>
+        <div class="brand-icon">◎</div>
+        <span class="brand-name">ORACLE</span>
+        <span class="brand-sub">Your intelligent planning engine</span>
     </div>
 
     <div class="card">
@@ -228,7 +221,7 @@
                     <label>Password</label>
                     <input type="password" id="login-password" placeholder="••••••••" />
                 </div>
-                <button class="btn-primary" id="login-btn" onclick="handleLogin()">Log In →</button>
+                <button class="btn-submit" id="login-btn" onclick="handleLogin()">Log In</button>
                 <div class="status" id="login-status"></div>
             </div>
         </div>
@@ -247,7 +240,7 @@
                     <label>Password</label>
                     <input type="password" id="signup-password" placeholder="At least 6 characters" />
                 </div>
-                <button class="btn-primary" id="signup-btn" onclick="handleSignup()">Create Account →</button>
+                <button class="btn-submit" id="signup-btn" onclick="handleSignup()">Create Account</button>
                 <div class="status" id="signup-status"></div>
             </div>
         </div>
@@ -274,15 +267,15 @@
         const password = document.getElementById('login-password').value;
         const btn      = document.getElementById('login-btn');
         const status   = document.getElementById('login-status');
-        if (!email || !password) { showStatus(status, 'Please fill in both fields.', 'error'); return; }
+        if (!email || !password) { show(status, 'Please fill in both fields.', 'error'); return; }
         btn.disabled = true; btn.textContent = 'Logging in…';
         status.className = 'status';
         try {
             await login(email, password);
             window.location.href = '/dashboard.html';
         } catch (err) {
-            showStatus(status, err.message || 'Login failed.', 'error');
-            btn.disabled = false; btn.textContent = 'Log In →';
+            show(status, err.message || 'Login failed.', 'error');
+            btn.disabled = false; btn.textContent = 'Log In';
         }
     };
 
@@ -292,24 +285,21 @@
         const password = document.getElementById('signup-password').value;
         const btn      = document.getElementById('signup-btn');
         const status   = document.getElementById('signup-status');
-        if (!name || !email || !password) { showStatus(status, 'Please fill in all fields.', 'error'); return; }
-        if (password.length < 6) { showStatus(status, 'Password must be at least 6 characters.', 'error'); return; }
+        if (!name || !email || !password) { show(status, 'Please fill in all fields.', 'error'); return; }
+        if (password.length < 6) { show(status, 'Password must be at least 6 characters.', 'error'); return; }
         btn.disabled = true; btn.textContent = 'Creating account…';
         status.className = 'status';
         try {
             await signUp(name, email, password);
-            showStatus(status, 'Account created! Now log in.', 'success');
+            show(status, 'Account created! Now log in.', 'success');
             btn.textContent = 'Done!';
         } catch (err) {
-            showStatus(status, err.message || 'Signup failed.', 'error');
-            btn.disabled = false; btn.textContent = 'Create Account →';
+            show(status, err.message || 'Signup failed.', 'error');
+            btn.disabled = false; btn.textContent = 'Create Account';
         }
     };
 
-    function showStatus(el, message, type) {
-        el.textContent = message;
-        el.className = `status ${type}`;
-    }
+    function show(el, msg, type) { el.textContent = msg; el.className = `status ${type}`; }
 
     document.addEventListener('keydown', e => {
         if (e.key !== 'Enter') return;
