@@ -1,49 +1,54 @@
-/* ============================================================
-   ORACLE — Global CSS
-   Design tokens, reset, typography, layout, utilities.
-   Every page links this file first.
-   ============================================================ */
 
-/* ── Google Fonts ── */
-@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Unbounded:wght@400;700;900&family=DM+Sans:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap');
 
 /* ── Design Tokens ── */
 :root {
-    /* Colors */
-    --bg:           #080b14;
-    --bg-2:         #0c1120;
-    --surface:      #0f1624;
-    --surface-2:    #141e30;
-    --border:       #1e2d45;
-    --border-light: #263852;
+    /* Core palette */
+    --black:      #0A0A0A;
+    --white:      #FFFFFF;
+    --pink:       #FF2D7E;
+    --pink-light: #FFD6E8;
+    --purple:     #6B21E8;
+    --purple-light: #E9D5FF;
+    --yellow:     #FFE500;
+    --bg:         #F5F0FF;   /* very light purple tint */
+    --bg-2:       #EDE6FF;
 
-    --accent:       #4f8ef7;
-    --accent-dim:   #1a3260;
-    --accent-glow:  rgba(79, 142, 247, 0.18);
+    /* Semantic aliases */
+    --surface:    var(--white);
+    --border:     var(--black);
+    --accent:     var(--pink);
+    --accent-2:   var(--purple);
+    --text:       var(--black);
+    --text-2:     #2D2D2D;
+    --muted:      #6B6B6B;
 
-    --text:         #e8edf5;
-    --text-2:       #9aafc9;
-    --muted:        #4a5a72;
-
-    --danger:       #f75e5e;
-    --danger-dim:   rgba(247, 94, 94, 0.12);
-    --success:      #4fc98e;
-    --success-dim:  rgba(79, 201, 142, 0.12);
-    --warning:      #f7b84f;
-    --warning-dim:  rgba(247, 184, 79, 0.12);
+    --danger:     #FF2D7E;
+    --danger-dim: #FFD6E8;
+    --success:    #00C896;
+    --success-dim:#C4F7EA;
+    --warning:    #FFB800;
+    --warning-dim:#FFF0B3;
 
     /* Category colors */
-    --cat-study:    #818cf8;
-    --cat-work:     #4f8ef7;
-    --cat-personal: #4fc98e;
-    --cat-general:  #9aafc9;
+    --cat-study:    var(--purple);
+    --cat-work:     var(--pink);
+    --cat-personal: #00C896;
+    --cat-general:  #6B6B6B;
 
     /* Priority colors */
-    --pri-1:        #4a5a72;   /* Low */
-    --pri-2:        #4fc98e;   /* Normal */
-    --pri-3:        #f7b84f;   /* Medium */
-    --pri-4:        #f7874f;   /* High */
-    --pri-5:        #f75e5e;   /* Critical */
+    --pri-1: #AAAAAA;
+    --pri-2: #00C896;
+    --pri-3: #FFB800;
+    --pri-4: #FF6B00;
+    --pri-5: var(--pink);
+
+    /* Neo brutalism core */
+    --border-width: 2.5px;
+    --shadow:       4px 4px 0px var(--black);
+    --shadow-lg:    6px 6px 0px var(--black);
+    --shadow-pink:  4px 4px 0px var(--pink);
+    --shadow-purple:4px 4px 0px var(--purple);
 
     /* Spacing */
     --gap-xs:  4px;
@@ -53,33 +58,27 @@
     --gap-xl:  32px;
     --gap-2xl: 48px;
 
-    /* Radius */
-    --r-sm:  8px;
-    --r-md:  12px;
-    --r-lg:  16px;
-    --r-xl:  20px;
+    /* Radius — minimal in brutalism */
+    --r-sm:   4px;
+    --r-md:   6px;
+    --r-lg:   8px;
+    --r-xl:   10px;
     --r-full: 999px;
 
     /* Typography */
-    --font-display: 'Syne', sans-serif;
-    --font-body:    'Manrope', sans-serif;
-    --font-mono:    'JetBrains Mono', monospace;
-
-    /* Shadows */
-    --shadow-sm: 0 2px 8px rgba(0,0,0,0.3);
-    --shadow-md: 0 8px 24px rgba(0,0,0,0.4);
-    --shadow-lg: 0 16px 48px rgba(0,0,0,0.5);
+    --font-display: 'Unbounded', sans-serif;
+    --font-body:    'DM Sans', sans-serif;
+    --font-mono:    'Space Mono', monospace;
 
     /* Nav */
-    --nav-height: 64px;
-    --nav-bottom: 72px; /* mobile bottom nav height */
+    --nav-height:  64px;
+    --nav-bottom:  72px;
 }
 
 /* ── Reset ── */
 *, *::before, *::after {
     box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+    margin: 0; padding: 0;
 }
 
 html {
@@ -97,15 +96,13 @@ body {
     -webkit-font-smoothing: antialiased;
 }
 
-/* Subtle grid texture on all pages */
+/* Dot-grid texture */
 body::before {
     content: '';
     position: fixed;
     inset: 0;
-    background-image:
-        linear-gradient(var(--border) 1px, transparent 1px),
-        linear-gradient(90deg, var(--border) 1px, transparent 1px);
-    background-size: 48px 48px;
+    background-image: radial-gradient(circle, #C4B5FD 1px, transparent 1px);
+    background-size: 28px 28px;
     opacity: 0.35;
     pointer-events: none;
     z-index: 0;
@@ -114,32 +111,32 @@ body::before {
 /* ── Typography ── */
 h1, h2, h3, h4 {
     font-family: var(--font-display);
-    font-weight: 700;
-    line-height: 1.2;
+    font-weight: 900;
+    line-height: 1.1;
     color: var(--text);
 }
 
-h1 { font-size: clamp(24px, 5vw, 36px); }
-h2 { font-size: clamp(20px, 4vw, 28px); }
-h3 { font-size: clamp(16px, 3vw, 20px); }
-h4 { font-size: 15px; }
+h1 { font-size: clamp(22px, 5vw, 32px); }
+h2 { font-size: clamp(18px, 4vw, 24px); }
+h3 { font-size: clamp(15px, 3vw, 18px); }
+h4 { font-size: 14px; }
 
 p  { color: var(--text-2); }
-a  { color: var(--accent); text-decoration: none; }
-a:hover { text-decoration: underline; }
+a  { color: var(--purple); text-decoration: underline; font-weight: 600; }
+a:hover { color: var(--pink); }
 
 code, .mono {
     font-family: var(--font-mono);
-    font-size: 13px;
-    background: var(--surface-2);
+    font-size: 12px;
+    background: var(--yellow);
     padding: 2px 6px;
+    border: 1.5px solid var(--black);
     border-radius: var(--r-sm);
-    color: var(--accent);
+    color: var(--black);
+    font-weight: 700;
 }
 
 /* ── Layout ── */
-
-/* Main page wrapper — accounts for top nav + bottom mobile nav */
 .page {
     position: relative;
     z-index: 1;
@@ -147,12 +144,11 @@ code, .mono {
     padding-bottom: calc(var(--nav-bottom) + var(--gap-lg));
     padding-left: var(--gap-lg);
     padding-right: var(--gap-lg);
-    max-width: 900px;
+    max-width: 860px;
     margin: 0 auto;
     min-height: 100dvh;
 }
 
-/* On wider screens, no bottom nav needed */
 @media (min-width: 768px) {
     .page {
         padding-bottom: var(--gap-2xl);
@@ -161,16 +157,27 @@ code, .mono {
     }
 }
 
-/* Section spacing */
 .section { margin-bottom: var(--gap-xl); }
+
 .section-title {
     font-family: var(--font-display);
-    font-size: 11px;
+    font-size: 10px;
     font-weight: 700;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
     color: var(--muted);
     margin-bottom: var(--gap-md);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.section-title::after {
+    content: '';
+    flex: 1;
+    height: 2px;
+    background: var(--black);
+    opacity: 0.12;
 }
 
 /* ── Grid helpers ── */
@@ -182,16 +189,16 @@ code, .mono {
 }
 
 /* ── Flex helpers ── */
-.flex        { display: flex; }
-.flex-center { display: flex; align-items: center; justify-content: center; }
-.flex-between{ display: flex; align-items: center; justify-content: space-between; }
-.flex-col    { display: flex; flex-direction: column; }
-.gap-sm      { gap: var(--gap-sm); }
-.gap-md      { gap: var(--gap-md); }
+.flex         { display: flex; }
+.flex-center  { display: flex; align-items: center; justify-content: center; }
+.flex-between { display: flex; align-items: center; justify-content: space-between; }
+.flex-col     { display: flex; flex-direction: column; }
+.gap-sm       { gap: var(--gap-sm); }
+.gap-md       { gap: var(--gap-md); }
 
-/* ── Utility classes ── */
+/* ── Utilities ── */
 .text-muted   { color: var(--muted); }
-.text-accent  { color: var(--accent); }
+.text-accent  { color: var(--pink); }
 .text-success { color: var(--success); }
 .text-danger  { color: var(--danger); }
 .text-warning { color: var(--warning); }
@@ -208,30 +215,32 @@ code, .mono {
 .hidden       { display: none !important; }
 
 /* ── Scrollbar ── */
-::-webkit-scrollbar       { width: 6px; height: 6px; }
+::-webkit-scrollbar       { width: 8px; height: 8px; }
 ::-webkit-scrollbar-track { background: var(--bg); }
-::-webkit-scrollbar-thumb { background: var(--border-light); border-radius: var(--r-full); }
+::-webkit-scrollbar-thumb {
+    background: var(--black);
+    border-radius: 0;
+    border: 2px solid var(--bg);
+}
 
 /* ── Selection ── */
-::selection { background: var(--accent-dim); color: var(--text); }
+::selection { background: var(--yellow); color: var(--black); }
 
 /* ── Focus ring ── */
 :focus-visible {
-    outline: 2px solid var(--accent);
+    outline: 3px solid var(--pink);
     outline-offset: 2px;
-    border-radius: var(--r-sm);
 }
 
-/* ── Page fade-in ── */
-@keyframes fadeUp {
-    from { opacity: 0; transform: translateY(12px); }
-    to   { opacity: 1; transform: translateY(0); }
+/* ── Page entrance ── */
+@keyframes brutalIn {
+    from { opacity: 0; transform: translateY(16px) rotate(-0.3deg); }
+    to   { opacity: 1; transform: translateY(0) rotate(0deg); }
 }
 
 .page > * {
-    animation: fadeUp 0.3s ease both;
+    animation: brutalIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) both;
 }
-
 .page > *:nth-child(1) { animation-delay: 0.04s; }
 .page > *:nth-child(2) { animation-delay: 0.08s; }
 .page > *:nth-child(3) { animation-delay: 0.12s; }
