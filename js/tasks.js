@@ -213,6 +213,7 @@ window.saveTask = async function() {
     if (!title)    { toast('Please enter a task title.', 'error'); return; }
     if (!total || total <= 0) { toast('Please enter the total work amount.', 'error'); return; }
     if (!deadline) { toast('Please set a deadline.', 'error'); return; }
+    if (deadline < today()) { toast('Deadline cannot be in the past.', 'error'); return; }
 
     const btn = document.getElementById('modal-save-btn');
     btn.disabled = true;
