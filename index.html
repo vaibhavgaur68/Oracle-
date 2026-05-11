@@ -4,109 +4,116 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>ORACLE — Sign In</title>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Figtree:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet" />
     <style>
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
         :root {
-            --pink:   #FF2D78;
-            --purple: #7C3AED;
-            --text:   #0F0A1E;
-            --text-2: #4B4567;
-            --muted:  #9B93B0;
-            --bg:     #F2EEF9;
-            --border: rgba(0,0,0,0.08);
-            --pink-dim: rgba(255,45,120,0.12);
+            --bg:           #0E0B14;
+            --bg-3:         #1A1525;
+            --surface:      rgba(255,255,255,0.04);
+            --surface-2:    rgba(255,255,255,0.07);
+            --border:       rgba(255,255,255,0.08);
+            --border-strong:rgba(255,255,255,0.14);
+            --amber:        #F0A500;
+            --amber-soft:   #F5B833;
+            --amber-dim:    rgba(240,165,0,0.12);
+            --violet:       #9B6DFF;
+            --text:         #F0EAF8;
+            --text-2:       #B8A9CF;
+            --muted:        #6B5F80;
+            --danger:       #FF5E7A;
+            --danger-dim:   rgba(255,94,122,0.12);
+            --success:      #2ED573;
         }
 
         body {
-            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-family: 'Figtree', sans-serif;
             background: var(--bg);
+            color: var(--text);
             min-height: 100dvh;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 24px;
+            padding: 20px;
             -webkit-font-smoothing: antialiased;
         }
 
-        /* Background gradient blobs */
         body::before {
             content: '';
             position: fixed; inset: 0;
             background:
-                radial-gradient(ellipse 70% 60% at 10% 0%, rgba(255,45,120,0.12) 0%, transparent 60%),
-                radial-gradient(ellipse 60% 70% at 90% 100%, rgba(124,58,237,0.14) 0%, transparent 60%);
+                radial-gradient(ellipse 60% 50% at 80% 0%,   rgba(240,165,0,0.07) 0%, transparent 60%),
+                radial-gradient(ellipse 50% 60% at 10% 100%, rgba(155,109,255,0.08) 0%, transparent 60%);
             pointer-events: none;
-            z-index: 0;
         }
 
         .wrapper {
             position: relative;
             z-index: 1;
             width: 100%;
-            max-width: 400px;
-            animation: fadeUp 0.5s cubic-bezier(0.25,0.46,0.45,0.94) both;
+            max-width: 380px;
+            animation: riseIn 0.4s cubic-bezier(0.22,1,0.36,1) both;
         }
 
-        @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(20px); }
+        @keyframes riseIn {
+            from { opacity: 0; transform: translateY(16px); }
             to   { opacity: 1; transform: translateY(0); }
         }
 
-        /* Brand */
-        .brand { text-align: center; margin-bottom: 28px; }
+        /* Brand mark */
+        .brand {
+            text-align: center;
+            margin-bottom: 32px;
+        }
 
-        .brand-icon {
-            width: 64px; height: 64px;
-            border-radius: 18px;
-            background: linear-gradient(135deg, var(--pink) 0%, var(--purple) 100%);
+        .brand-mark {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            font-size: 28px;
+            width: 56px; height: 56px;
+            background: var(--amber-dim);
+            border: 1px solid rgba(240,165,0,0.25);
+            border-radius: 16px;
+            font-size: 26px;
             margin-bottom: 14px;
-            box-shadow: 0 8px 28px rgba(255,45,120,0.30);
         }
 
         .brand-name {
             display: block;
-            font-size: 26px;
+            font-family: 'Syne', sans-serif;
+            font-size: 28px;
             font-weight: 800;
-            letter-spacing: -0.5px;
-            background: linear-gradient(135deg, var(--pink), var(--purple));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            letter-spacing: 0.08em;
+            color: var(--amber);
         }
 
         .brand-sub {
             display: block;
-            font-size: 13px;
-            color: var(--muted);
-            margin-top: 4px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
             font-weight: 500;
+            letter-spacing: 0.1em;
+            color: var(--muted);
+            margin-top: 6px;
+            text-transform: uppercase;
         }
 
         /* Card */
         .card {
-            background: rgba(255,255,255,0.88);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid var(--border);
-            border-radius: 28px;
-            padding: 32px 28px;
-            box-shadow: 0 12px 40px rgba(0,0,0,0.08), 0 2px 8px rgba(0,0,0,0.04);
+            background: var(--surface);
+            border: 1px solid var(--border-strong);
+            border-radius: 22px;
+            padding: 28px 24px;
         }
 
         /* Tabs */
         .tabs {
             display: flex;
-            background: rgba(0,0,0,0.05);
+            background: rgba(0,0,0,0.3);
             border-radius: 999px;
             padding: 3px;
-            margin-bottom: 26px;
-            gap: 0;
+            margin-bottom: 24px;
         }
 
         .tab-btn {
@@ -116,7 +123,7 @@
             border-radius: 999px;
             background: transparent;
             color: var(--muted);
-            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-family: 'Figtree', sans-serif;
             font-size: 13px;
             font-weight: 700;
             cursor: pointer;
@@ -124,40 +131,41 @@
         }
 
         .tab-btn.active {
-            background: white;
-            color: var(--text);
-            box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+            background: var(--amber);
+            color: var(--bg);
         }
 
         /* Form */
         .form { display: flex; flex-direction: column; gap: 14px; }
-
         .field { display: flex; flex-direction: column; gap: 5px; }
 
         label {
-            font-size: 12px;
-            font-weight: 700;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
             color: var(--text-2);
-            letter-spacing: 0.02em;
         }
 
         input {
-            background: rgba(255,255,255,0.9);
-            border: 1px solid rgba(0,0,0,0.1);
+            background: rgba(255,255,255,0.05);
+            border: 1px solid var(--border-strong);
             border-radius: 12px;
             padding: 13px 16px;
             color: var(--text);
-            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-family: 'Figtree', sans-serif;
             font-size: 15px;
             font-weight: 500;
             outline: none;
-            transition: all 0.2s;
             width: 100%;
+            transition: all 0.18s;
         }
 
         input:focus {
-            border-color: var(--pink);
-            box-shadow: 0 0 0 4px rgba(255,45,120,0.12);
+            border-color: var(--amber);
+            background: rgba(240,165,0,0.06);
+            box-shadow: 0 0 0 3px rgba(240,165,0,0.12);
         }
 
         input::placeholder { color: var(--muted); font-weight: 400; }
@@ -165,44 +173,43 @@
         .btn-submit {
             margin-top: 6px;
             padding: 14px;
-            background: linear-gradient(135deg, var(--pink) 0%, var(--purple) 100%);
-            color: white;
+            background: var(--amber);
+            color: var(--bg);
             border: none;
             border-radius: 999px;
-            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-family: 'Figtree', sans-serif;
             font-size: 15px;
-            font-weight: 700;
+            font-weight: 800;
             cursor: pointer;
-            box-shadow: 0 4px 16px rgba(255,45,120,0.30);
-            transition: all 0.2s ease;
+            transition: all 0.18s;
             width: 100%;
-            letter-spacing: -0.1px;
+            box-shadow: 0 4px 20px rgba(240,165,0,0.28);
         }
 
-        .btn-submit:hover  { box-shadow: 0 6px 24px rgba(255,45,120,0.40); transform: translateY(-1px); }
+        .btn-submit:hover { background: var(--amber-soft); transform: translateY(-1px); box-shadow: 0 6px 28px rgba(240,165,0,0.36); }
         .btn-submit:active { transform: scale(0.98); }
-        .btn-submit:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+        .btn-submit:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
 
         .status {
             font-size: 13px;
             font-weight: 600;
             padding: 10px 14px;
-            border-radius: 12px;
+            border-radius: 10px;
+            border: 1px solid transparent;
             display: none;
             margin-top: 4px;
         }
 
-        .status.error   { background: rgba(255,45,120,0.1); color: var(--pink); display: block; }
-        .status.success { background: rgba(52,199,89,0.1);  color: #1A7A38;     display: block; }
+        .status.error   { background: var(--danger-dim);  color: var(--danger);  border-color: rgba(255,94,122,0.2);  display: block; }
+        .status.success { background: rgba(46,213,115,0.1); color: var(--success); border-color: rgba(46,213,115,0.2); display: block; }
     </style>
 </head>
 <body>
-
 <div class="wrapper">
     <div class="brand">
-        <div class="brand-icon">◎</div>
+        <div class="brand-mark">◎</div>
         <span class="brand-name">ORACLE</span>
-        <span class="brand-sub">Your intelligent planning engine</span>
+        <span class="brand-sub">Intelligent Planning Engine</span>
     </div>
 
     <div class="card">
@@ -238,7 +245,7 @@
                 </div>
                 <div class="field">
                     <label>Password</label>
-                    <input type="password" id="signup-password" placeholder="At least 6 characters" />
+                    <input type="password" id="signup-password" placeholder="Min. 6 characters" />
                 </div>
                 <button class="btn-submit" id="signup-btn" onclick="handleSignup()">Create Account</button>
                 <div class="status" id="signup-status"></div>
@@ -249,12 +256,9 @@
 
 <script type="module">
     import { login, signUp, getCurrentUser } from './js/auth.js';
+    getCurrentUser().then(u => { if (u) window.location.href = '/dashboard.html'; });
 
-    getCurrentUser().then(user => {
-        if (user) window.location.href = '/dashboard.html';
-    });
-
-    window.showTab = function(tab) {
+    window.showTab = (tab) => {
         const isLogin = tab === 'login';
         document.getElementById('form-login').style.display  = isLogin ? 'block' : 'none';
         document.getElementById('form-signup').style.display = isLogin ? 'none'  : 'block';
@@ -262,49 +266,37 @@
         document.getElementById('tab-signup').classList.toggle('active', !isLogin);
     };
 
-    window.handleLogin = async function() {
-        const email    = document.getElementById('login-email').value.trim();
-        const password = document.getElementById('login-password').value;
-        const btn      = document.getElementById('login-btn');
-        const status   = document.getElementById('login-status');
-        if (!email || !password) { show(status, 'Please fill in both fields.', 'error'); return; }
+    window.handleLogin = async () => {
+        const email = document.getElementById('login-email').value.trim();
+        const pass  = document.getElementById('login-password').value;
+        const btn   = document.getElementById('login-btn');
+        const msg   = document.getElementById('login-status');
+        if (!email || !pass) { show(msg,'Fill in both fields.','error'); return; }
         btn.disabled = true; btn.textContent = 'Logging in…';
-        status.className = 'status';
-        try {
-            await login(email, password);
-            window.location.href = '/dashboard.html';
-        } catch (err) {
-            show(status, err.message || 'Login failed.', 'error');
-            btn.disabled = false; btn.textContent = 'Log In';
-        }
+        msg.className = 'status';
+        try { await login(email, pass); window.location.href = '/dashboard.html'; }
+        catch(e) { show(msg, e.message||'Login failed.','error'); btn.disabled=false; btn.textContent='Log In'; }
     };
 
-    window.handleSignup = async function() {
-        const name     = document.getElementById('signup-name').value.trim();
-        const email    = document.getElementById('signup-email').value.trim();
-        const password = document.getElementById('signup-password').value;
-        const btn      = document.getElementById('signup-btn');
-        const status   = document.getElementById('signup-status');
-        if (!name || !email || !password) { show(status, 'Please fill in all fields.', 'error'); return; }
-        if (password.length < 6) { show(status, 'Password must be at least 6 characters.', 'error'); return; }
+    window.handleSignup = async () => {
+        const name  = document.getElementById('signup-name').value.trim();
+        const email = document.getElementById('signup-email').value.trim();
+        const pass  = document.getElementById('signup-password').value;
+        const btn   = document.getElementById('signup-btn');
+        const msg   = document.getElementById('signup-status');
+        if (!name||!email||!pass) { show(msg,'Fill in all fields.','error'); return; }
+        if (pass.length < 6)      { show(msg,'Password min. 6 characters.','error'); return; }
         btn.disabled = true; btn.textContent = 'Creating account…';
-        status.className = 'status';
-        try {
-            await signUp(name, email, password);
-            show(status, 'Account created! Now log in.', 'success');
-            btn.textContent = 'Done!';
-        } catch (err) {
-            show(status, err.message || 'Signup failed.', 'error');
-            btn.disabled = false; btn.textContent = 'Create Account';
-        }
+        msg.className = 'status';
+        try { await signUp(name,email,pass); show(msg,'Account created! Now log in.','success'); btn.textContent='Done!'; }
+        catch(e) { show(msg,e.message||'Signup failed.','error'); btn.disabled=false; btn.textContent='Create Account'; }
     };
 
-    function show(el, msg, type) { el.textContent = msg; el.className = `status ${type}`; }
+    const show = (el,msg,type) => { el.textContent=msg; el.className=`status ${type}`; };
 
     document.addEventListener('keydown', e => {
         if (e.key !== 'Enter') return;
-        const loginVisible = document.getElementById('form-login').style.display !== 'none';
-        if (loginVisible) handleLogin(); else handleSignup();
+        document.getElementById('form-login').style.display !== 'none' ? handleLogin() : handleSignup();
     });
 </script>
 </body>
