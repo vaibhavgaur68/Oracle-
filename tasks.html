@@ -9,7 +9,6 @@
 </head>
 <body>
 
-<!-- ── Top Nav ── -->
 <nav class="nav">
     <a href="dashboard.html" class="nav-logo">ORACLE</a>
     <ul class="nav-links">
@@ -21,7 +20,6 @@
     </ul>
 </nav>
 
-<!-- ── Bottom Nav (mobile) ── -->
 <nav class="bottom-nav">
     <a href="dashboard.html"><span class="icon">⊞</span>Today</a>
     <a href="tasks.html" class="active"><span class="icon">✦</span>Tasks</a>
@@ -29,11 +27,8 @@
     <a href="settings.html"><span class="icon">◈</span>Settings</a>
 </nav>
 
-<!-- ── Page ── -->
 <main class="page">
-
-    <!-- Header -->
-    <div class="flex-between" style="margin-bottom: var(--gap-lg);">
+    <div class="flex-between" style="margin-bottom:var(--gap-lg);">
         <div>
             <h1>Tasks</h1>
             <p class="text-sm text-muted mt-sm" id="task-count">Loading…</p>
@@ -42,7 +37,7 @@
     </div>
 
     <!-- Filter bar -->
-    <div class="card-sm flex gap-sm" style="margin-bottom:var(--gap-lg); flex-wrap:wrap;">
+    <div style="display:flex;gap:var(--gap-sm);flex-wrap:wrap;margin-bottom:var(--gap-lg);">
         <button class="btn btn-sm btn-secondary filter-btn active" data-filter="all">All</button>
         <button class="btn btn-sm btn-secondary filter-btn" data-filter="Study">Study</button>
         <button class="btn btn-sm btn-secondary filter-btn" data-filter="Work">Work</button>
@@ -50,37 +45,27 @@
         <button class="btn btn-sm btn-secondary filter-btn" data-filter="General">General</button>
     </div>
 
-    <!-- Task list -->
     <div id="task-list">
         <div class="loading-screen" style="min-height:200px;">
-            <div class="spinner"></div> Loading tasks…
+            <div class="spinner"></div>&nbsp;Loading tasks…
         </div>
     </div>
-
 </main>
 
-<!-- ── FAB (mobile add button) ── -->
 <button class="fab" onclick="openAddModal()" title="Add task">+</button>
 
-<!-- ════════════════════════════════════════════════════════
-     ADD / EDIT TASK MODAL
-     ════════════════════════════════════════════════════════ -->
+<!-- Add / Edit Modal -->
 <div class="modal-overlay" id="task-modal">
     <div class="modal">
         <div class="modal-header">
             <span class="modal-title" id="modal-title">Add Task</span>
             <button class="btn-icon" onclick="closeTaskModal()">✕</button>
         </div>
-
         <div class="modal-body">
-
-            <!-- Title -->
             <div class="form-group">
                 <label class="form-label">Task Title</label>
-                <input class="form-input" id="f-title" type="text" placeholder="e.g. Read Chapter 5, Write report…" />
+                <input class="form-input" id="f-title" type="text" placeholder="What needs doing?" />
             </div>
-
-            <!-- Category + Priority row -->
             <div class="form-row">
                 <div class="form-group">
                     <label class="form-label">Category</label>
@@ -102,13 +87,10 @@
                     </select>
                 </div>
             </div>
-
-            <!-- Total work + Unit row -->
             <div class="form-row">
                 <div class="form-group">
                     <label class="form-label">Total Work</label>
                     <input class="form-input" id="f-total" type="number" min="0.5" step="0.5" placeholder="e.g. 8" />
-                    <span class="form-hint">How much total effort?</span>
                 </div>
                 <div class="form-group">
                     <label class="form-label">Unit</label>
@@ -121,24 +103,16 @@
                     </select>
                 </div>
             </div>
-
-            <!-- Deadline -->
             <div class="form-group">
                 <label class="form-label">Deadline</label>
                 <input class="form-input" id="f-deadline" type="date" />
             </div>
-
-            <!-- Notes -->
             <div class="form-group">
                 <label class="form-label">Notes (optional)</label>
                 <textarea class="form-textarea" id="f-notes" placeholder="Any extra context…"></textarea>
             </div>
-
-            <!-- Hidden field for edit mode -->
             <input type="hidden" id="f-task-id" />
-
         </div>
-
         <div class="modal-footer">
             <button class="btn btn-secondary" onclick="closeTaskModal()">Cancel</button>
             <button class="btn btn-primary" id="modal-save-btn" onclick="saveTask()">Save Task</button>
@@ -146,17 +120,16 @@
     </div>
 </div>
 
-<!-- ════════════════════════════════════════════════════════
-     DELETE CONFIRM MODAL
-     ════════════════════════════════════════════════════════ -->
+<!-- Delete Confirm Modal -->
 <div class="modal-overlay" id="delete-modal">
     <div class="modal" style="max-width:380px;">
         <div class="modal-header">
             <span class="modal-title">Delete Task?</span>
             <button class="btn-icon" onclick="closeModal('delete-modal')">✕</button>
         </div>
-        <p style="color:var(--text-2); font-size:14px;">
-            This will permanently delete "<strong id="delete-task-name"></strong>" and all its completion history. This cannot be undone.
+        <p style="color:var(--text-2);font-size:14px;line-height:1.5;">
+            This will permanently delete "<strong id="delete-task-name" style="color:var(--text);"></strong>"
+            and all its history. Cannot be undone.
         </p>
         <div class="modal-footer">
             <button class="btn btn-secondary" onclick="closeModal('delete-modal')">Cancel</button>
